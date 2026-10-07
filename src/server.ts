@@ -30,7 +30,7 @@ async function handle(req: AppRequest): Promise<AppResponse> {
         if (path === '/health')
             return json(200, { ok: true });
         if (path === '/api/config')
-            return json(200, config);
+            return json(200, { ...config, readOnly: Boolean(req.readOnly || process.env.READ_ONLY === '1') });
         if (path.startsWith('/api/')) {
             const entity = path.slice(5);
             if (!config.features.includes(entity))
